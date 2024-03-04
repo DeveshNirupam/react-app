@@ -1,14 +1,14 @@
 'use client';
 import React, { useState } from 'react'
 
-const TodoList = () => {
+const todolist = () => {
 
 
     const [taskList, setTasklist] = useState([
-        {text : 'Do coding',completed:false}
-        {text : 'Play games',completed:false}
-        {text : 'bring Milk',completed:false}
-       
+        { text: 'Do coding', completed: false },
+        { text: 'Play games', completed: false },
+        { text: 'bring Milk', completed: false }
+
     ]);
 
 
@@ -16,8 +16,33 @@ const TodoList = () => {
 
 
     const addTask = (e) => {
-        console.log(e.key);
+        if (e.code === 'Enter') {
+            console.log(e.target.value);
+
+            const obj = { text: e.target.value, completed: false };
+
+            setTasklist([obj, ...taskList]);
+
+            e.target.value = '';
+        }
     }
+
+    const deleteTask =(index)=>{
+        console.log(index);
+        const temp= taskList;
+        temp.splice(index,1);
+        setTasklist([...temp]);
+    } 
+    
+    const completeTask =(index) =>{
+        const temp = taskList;
+        temp[index].completed= true;
+        setTasklist([...temp]);
+        console.log(temp);
+
+    }
+
+
     return (
         <div className='bg-primary-subtle vh-100'>
             <div className='container py-5'>
@@ -25,10 +50,31 @@ const TodoList = () => {
                 <div className="card shadow">
                     <div className="card-header py-3">
                         <input type="text"
-                        className='form-control border-primary border-3'
-                        onKeyDown= {addTask} />
+                            className='form-control border-primary border-3'
+                            onKeyDown={addTask} />
                     </div>
-                    <div className="card-body"></div>
+                    <div className="card-body">
+                        {
+                            taskList.map((task, index) => {
+                                return <div key={index} className='mb-4 d-flex justify-content-between align-items-center'>
+                                    <p className='my-auto'>{task.text}</p>
+                                    {
+                                        task.completed ?
+                                        <span className='badge bg-success'>Completed</span>
+                                        : <span className='badge bg-warning'>Pending</span>
+                                    }
+                                    <button 
+                                    onClick ={()=> {deleteTask(index)}}
+                                    className='btn btn-danger'>Delete</button>
+
+                                    <button
+                                    onClick = {()=> {completeTask(index)}} 
+                                    className='btn btn-success'>Complete</button>
+                                </div>
+                            }
+                            )
+                        }
+                    </div>
 
                 </div>
             </div>
@@ -36,4 +82,4 @@ const TodoList = () => {
     )
 }
 
-export default TodoList;
+export default todolist;

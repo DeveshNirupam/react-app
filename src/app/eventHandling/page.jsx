@@ -1,33 +1,37 @@
 'use client';
-import React from 'react'
+import React, { useState } from 'react'
 
-const eventHandling = () => {
+const TodoList = () => {
 
-    const num = 403;
-    const addNums =(a,b) =>{
-        return a+b;
+    const [taskList, setTaskList] = useState([
+        { text: 'Do Coding', completed: false },
+        { text: 'Play Games', completed: false },
+        { text: 'Bring Milk', completed: false },
+    ]);
+
+    const addTask = (e) => {
+        console.log(e.key);
     }
 
-  return (
-    <div className='container'>
-        <h1 className='text-center'> Event Hanling</h1>
-        <hr />
+    return (
+        <div className='bg-primary-subtle vh-100'>
+            <div className='container py-5'>
 
+                <h1 className='display-3 fw-bold text-center'>Todo List</h1>
 
-        <h1>{num}</h1>
-        <h2>
-            {addNums(345,567)}
-        </h2>
-        <h4>
-            {3+7}
-        </h4>
-        <button className='btn btn-primary'onClick={() =>{alert('Button was clicked')} }>click Me</button>
-         <input type="color" onChange= {(e) => {console.log(e.target.value)}} />
-         <input type="color" onChange= {(e) => {document.body.style.background = e.target.value}} />
-
-    </div>
-    
-  )
+                <div className='card shadow'>
+                    <div className='card-header py-3'>
+                        <input
+                            type="text"
+                            className='form-control border-primary border-3'
+                            onKeyDown={addTask}
+                        />
+                    </div>
+                    <div className='card-body'></div>
+                </div>
+            </div>
+        </div>
+    )
 }
 
-export default eventHandling;
+export default TodoList;
