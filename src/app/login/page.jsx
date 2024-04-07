@@ -2,8 +2,17 @@
 import React from 'react';
 import Link from 'next/link';
 import { useFormik } from 'formik';
+import * as Yup from 'yup';
 
 const Login = () => {
+
+  const loginValidationSchema = Yup.object().shape({
+
+    email : Yup.string().email('Email is Invalid').required('Email is Required'),
+    password : Yup.string().required('Password is Required')
+
+
+  });
 
   const loginForm = useFormik({
     initialValues: {
@@ -15,7 +24,9 @@ const Login = () => {
       console.log(values);
 
       //send data to backend
-    }
+    },
+
+    validationSchema: loginValidationSchema
   });
 
   return (
@@ -55,7 +66,11 @@ const Login = () => {
                           className="form-control"
                           placeholder=""
                         />
-                        <small className="text-muted">Enter Valid Email</small>
+                        {loginForm.touched.email &&
+                        <small className="text-danger">{loginForm.errors.email}</small>
+                        
+                          }
+                        
                       </div>
                       <div className="mb-3">
                         <label for="" className="form-label">Password</label>
@@ -67,7 +82,10 @@ const Login = () => {
                           className="form-control"
                           placeholder=""
                         />
-                        <small className="text-muted">Enter Valid Password</small>
+                        {loginForm.touched.password &&
+                        <small className="text-danger">{loginForm.errors.password}</small>
+                        
+                          }
                       </div>
 
                       <div className="form-check mb-4">
